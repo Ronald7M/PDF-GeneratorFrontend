@@ -42,6 +42,6 @@ jobs:
             docker load < /tmp/frontend-chacha.tar.gz &&
             docker stop frontend-chacha || true &&
             docker rm frontend-chacha || true &&
-            docker run -d --name frontend-chacha -p 5001:3000 frontend-chacha &&
+            docker run -d --name frontend-chacha -p 100:80 frontend-chacha &&
             rm /tmp/frontend-chacha.tar.gz
           "
