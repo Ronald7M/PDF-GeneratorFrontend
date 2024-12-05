@@ -148,8 +148,6 @@ const GeneratePDF = () => {
     sendPDFToBackend(pdfOutput,parameter.email);
     //doc.save("tabel.pdf");
     setFormData(initialFormData);
-  
-
   };
   const [rowTable, setRowTable] = useState(1);
   const row = [];
