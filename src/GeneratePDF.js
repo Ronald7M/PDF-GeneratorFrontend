@@ -10,10 +10,9 @@ const sendPDFToBackend = (pdfBlob,email) => {
   const formData = new FormData();
   formData.append("pdf", pdfBlob, "invoice.pdf"); 
   formData.append("email",email );  
-  formData.append("subject", "Invoice from Demeter");  // Subiectul emailului
-  formData.append("message", "Hello , this invoice is for you !");  // Mesajul emailului
+  formData.append("subject", "Invoice from Demeter");  
+  formData.append("message", "Hello , this invoice is for you !"); 
 
-  // Trimite fișierul PDF și informațiile emailului către backend folosind axios
   axios.post("http://ronsky.ro:5000/send-email", formData)
     .then(response => {
       alert(response.data);
@@ -30,40 +29,38 @@ const insertTable = (doc, parameter) => {
   let rez = 0;
 
   data.forEach(item => {
-    // Asigură-te că price și quantity sunt numere
-    const price = parseFloat(item.price); // Convertește price într-un număr
-    const quantity = parseFloat(item.quantity); // Convertește quantity într-un număr
+    const price = parseFloat(item.price);
+    const quantity = parseFloat(item.quantity);
 
     if (!isNaN(price) && !isNaN(quantity)) {
-      item.total = quantity * price; // Calculăm totalul pentru fiecare rând
-      rez += item.total; // Adăugăm totalul rândului la suma totală
+      item.total = quantity * price;
+      rez += item.total;
 
-      // Formatează prețul și totalul pentru a include simbolul €
+ 
       item.price = `${price.toFixed(2)} €`;
       item.total = `${item.total.toFixed(2)} €`;
     } else {
-      // Dacă price sau quantity nu sunt numere, le setăm la 0 pentru a evita erorile
+
       item.price = "0.00 €";
       item.total = "0.00 €";
     }
   });
 
-  // Adăugăm o linie cu totalul general la sfârșit
   data.push({
-    item: "", // Lăsăm "Item" gol
-    quantity: "", // Lăsăm "Quantity" gol
-    price: "TOTAL", // Afișăm "TOTAL" în loc de preț
-    total: `${rez.toFixed(2)} €` // Adăugăm totalul general
+    item: "",
+    quantity: "",
+    price: "TOTAL",
+    total: `${rez.toFixed(2)} €` 
   });
 
-  // Adăugăm tabelul cu margini vizibile
+
   doc.autoTable({
     head: [columns],
-    body: data.map(item => [item.item, item.quantity, item.price, item.total]), // Formatăm datele pentru tabel
-    theme: "grid",  // Stil cu grilă (margini vizibile)
-    headStyles: { fillColor: [200, 200, 200] }, // Culoare de fundal pentru antet
-    styles: { cellPadding: 1, fontSize: 12, halign: 'center' }, // Adăugăm un pic de padding în celule
-    startY: doc.autoTable.previous.finalY + 63, // Începem tabelul puțin mai jos de ultima secțiune
+    body: data.map(item => [item.item, item.quantity, item.price, item.total]), 
+    theme: "grid",
+    headStyles: { fillColor: [200, 200, 200] },
+    styles: { cellPadding: 1, fontSize: 12, halign: 'center' },
+    startY: doc.autoTable.previous.finalY + 63,
   });
 };
 const GeneratePDF = () => {
@@ -83,38 +80,38 @@ const GeneratePDF = () => {
     const doc = new jsPDF();
     const tableRows = [[text1, date]];
 
-    doc.setFont("plain", "normal");  // Setează fontul la Helvetica și stilul normal
-    doc.setFontSize(12); // Setează dimensiunea fontului la 16
+    doc.setFont("plain", "normal");
+    doc.setFontSize(12);
 
     doc.autoTable({
       body: tableRows,
-      startY: 20, // Poziționează tabelul la o distanță de 20px față de începutul paginii
-      theme: 'plain', // Folosim tema 'plain' pentru a evita stilizarea automată
+      startY: 20,
+      theme: 'plain',
       styles: {
-        cellPadding: 5, // Spațiu între conținutul celulei și marginea acesteia
-        lineWidth: 0, // Fără margini între celule
-        lineColor: [255, 255, 255], // Culoarea marginilor (alb - deci invizibile)
+        cellPadding: 5,
+        lineWidth: 0, 
+        lineColor: [255, 255, 255], 
       },
       columnStyles: {
-        0: { halign: 'left' }, // Alinierea la stânga pentru coloana 1
-        1: { halign: 'center' }, // Alinierea la centru pentru coloana 2
+        0: { halign: 'left' }, 
+        1: { halign: 'center' },
       },
-      margin: { top: 10 }, // Marginea de sus a tabelului
+      margin: { top: 10 },
     });
 
-    doc.setFont("plain", "normal");  // Setează fontul la Helvetica și stilul normal
+    doc.setFont("plain", "normal"); 
     doc.setFontSize(12);
     doc.text(var1, 20, 55);
 
-    doc.setFont("plain", "normal");  // Setează fontul la Helvetica și stilul normal
+    doc.setFont("plain", "normal");
     doc.setFontSize(12);
     doc.text(var1, 20, 55);
 
-    doc.setFont("plain", "bold");  // Setează fontul la Helvetica și stilul normal
+    doc.setFont("plain", "bold");
     doc.setFontSize(14);
     doc.text("Invoice No.: " + varNumberInvoice, 20, 80);
 
-    doc.setFont("plain", "normal");  // Setează fontul la Helvetica și stilul normal
+    doc.setFont("plain", "normal");  
     doc.setFontSize(12);
     doc.text("You have ordered: ", 20, 85);
     doc.text("  Violin " + varNumberOfViolin + " Pcs", 20, 90);
@@ -175,10 +172,10 @@ const GeneratePDF = () => {
 
 
 
-  // Funcția care se execută la trimiterea formularului
+ 
   const handleSubmit = (e) => {
     e.preventDefault();
-    console.table(formData); // Afișează obiectul cu datele formularului
+    console.table(formData);
     console.log(formData)
     handleGeneratePDF(formData)
 
@@ -205,7 +202,7 @@ const GeneratePDF = () => {
       const newTable = [...prevData.table];
       newTable[index] = {
         ...newTable[index],
-        [name]: value.trim(), // elimină spațiile de la începutul și sfârșitul valorii
+        [name]: value.trim(),
       };
   
       return {
@@ -218,10 +215,10 @@ const GeneratePDF = () => {
   const handleChangeNormal = (e) => {
     const { name, value } = e.target;
   
-    // Actualizăm doar câmpurile normale, nu cele din table
+
     setFormData((prevData) => ({
       ...prevData,
-      [name]: value,  // Actualizează doar câmpul specificat (name, data, etc.)
+      [name]: value,  
     }));
   };
 
