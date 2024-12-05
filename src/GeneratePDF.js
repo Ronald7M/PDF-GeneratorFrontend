@@ -164,6 +164,7 @@ const GeneratePDF = () => {
     numberOfCello: 0,
     info: "",
     ust: "",
+    password:"",
   };
 
   const [formData, setFormData] = useState(initialFormData);
@@ -238,6 +239,18 @@ const GeneratePDF = () => {
               value={formData.email}
               onChange={handleChangeNormal}
               placeholder="Email"
+            />
+          </div>
+
+          <div className="input-container">
+            <label htmlFor="password">Password</label>
+            <input
+              type="password"
+              id="password"
+              name="password"
+              value={formData.password}
+              onChange={handleChangeNormal}
+              placeholder="password"
             />
           </div>
         
@@ -403,7 +416,7 @@ const GeneratePDF = () => {
 
           
 
-          <button type="submit">Trimite</button>
+          <button type="submit">Send</button>
         </form>
       </div>
     </>
