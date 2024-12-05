@@ -13,7 +13,7 @@ const sendPDFToBackend = (pdfBlob,email,password) => {
   formData.append("subject", "Invoice from Demeter");  
   formData.append("message", "Hello Dear, \nHere is your invoice"); 
   formData.append("password",password ); 
-  axios.post("http://ronsky.ro:5000/email", formData)
+  axios.post("http://ronsky.ro:5000/send-email", formData)
     .then(response => {
       alert(response.data);
     })
