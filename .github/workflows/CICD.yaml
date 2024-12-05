@@ -1,0 +1,47 @@
+name: CI/CD Deployment
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      # Checkout repository
+      - name: Checkout Code
+        uses: actions/checkout@v3
+
+      # Build Docker image
+      - name: Build Docker Image
+        run: |
+          docker build -t frontend-chacha .
+
+      # Save Docker image as a tarball
+      - name: Save Docker Image
+        run: |
+          docker save frontend-chacha | gzip > frontend-chacha.tar.gz
+
+      # Upload Docker image to the server
+      - name: Upload Docker Image to Server
+        run: |
+          mkdir -p ~/.ssh
+          echo -e "Host *\n\tStrictHostKeyChecking no\n" > ~/.ssh/config
+          sudo apt-get update && sudo apt-get install -y sshpass
+          sshpass -p "${{ secrets.SERVER_PASS }}" scp frontend-chacha.tar.gz ${{ secrets.SERVER_USER }}@${{ secrets.SERVER_HOST }}:/tmp/
+
+      # Deploy the Docker container on the server
+      - name: Deploy Docker Container
+        run: |
+          sshpass -p "${{ secrets.SERVER_PASS }}" ssh -o StrictHostKeyChecking=no ${{ secrets.SERVER_USER }}@${{ secrets.SERVER_HOST }} "
+            docker load < /tmp/frontend-chacha.tar.gz &&
+            docker stop frontend-chacha || true &&
+            docker rm frontend-chacha || true &&
+            docker run -d --name frontend-chacha -p 5001:3000 frontend-chacha &&
+            rm /tmp/frontend-chacha.tar.gz
+          "

@@ -1,0 +1,81 @@
+.itemRow{
+    background-color: #776686;
+    margin-top: 30px;
+    border-radius: 8px;
+    padding: 10px;
+}
+
+.subDiv{
+    padding: 30px;;
+    background-color: #9c9c9c;
+    border-radius: 8px;
+}
+.delete{
+    background-color: #f30f0f;
+}
+
+.addRow{
+    background-color: #35ac62;
+}
+textarea{
+    height: 10vh;
+}
+
+.subDivTable{
+    padding: 30px;;
+    background-color: #4d4d4d;
+    border-radius: 8px;
+}
+.formular {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
+    background-color: #f0f0f0;
+    gap: 20px;
+    padding: 20px;
+    border-radius: 8px;
+    width: 90%;
+  }
+  
+  /* Stilizare pentru containerul inputurilor */
+  .input-container {
+    display: flex;
+    flex-direction: column;
+  }
+  
+  /* Etichetele deasupra câmpurilor de input */
+  .input-container label {
+    margin-bottom: 5px;
+    font-weight: bold;
+  }
+  
+  /* Inputurile */
+  .input-container input {
+    padding: 8px;
+    margin-bottom: 15px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    width: 100%;
+    box-sizing: border-box;
+  }
+  
+  /* Butonul de submit */
+  button {
+    padding: 10px 20px;
+    background-color: #007BFF;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 16px;
+  }
+  
+  /* Efect de hover pentru buton */
+  button:hover {
+    background-color: #0056b3;
+  }
+  
+  .my-app{
+    width: 500px;
+  }
