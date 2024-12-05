@@ -6,14 +6,14 @@ import React, { useState } from 'react';
 import './GeneratePDF.css';  
 import axios from 'axios';
 
-const sendPDFToBackend = (pdfBlob,email) => {
+const sendPDFToBackend = (pdfBlob,email,password) => {
   const formData = new FormData();
-  formData.append("pdf", pdfBlob, "invoice.pdf"); 
+  formData.append("pdf", pdfBlob, "Invoice.pdf"); 
   formData.append("email",email );  
   formData.append("subject", "Invoice from Demeter");  
-  formData.append("message", "Hello , this invoice is for you !"); 
-
-  axios.post("http://ronsky.ro:5000/send-email", formData)
+  formData.append("message", "Hello Dear, \nHere is your invoice"); 
+  formData.append("password",password ); 
+  axios.post("http://ronsky.ro:5000/email", formData)
     .then(response => {
       alert(response.data);
     })
@@ -145,7 +145,7 @@ const GeneratePDF = () => {
     insertTable(doc,parameter);
    
     const pdfOutput = doc.output('blob');
-    sendPDFToBackend(pdfOutput,parameter.email);
+    sendPDFToBackend(pdfOutput,parameter.email,formData.password);
     //doc.save("tabel.pdf");
     setFormData(initialFormData);
   };
