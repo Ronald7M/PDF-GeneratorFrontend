@@ -14,8 +14,8 @@ const sendPDFToBackend = (pdfBlob,email,password,form) => {
   formData.append("message", "Hello Dear, \nHere is your invoice"); 
   formData.append("password",password );
   formData.append("formData",JSON.stringify(form) ); 
-  //const link="http://ronsky.ro:5000/send-email";
-  const link="http://localhost:3000/send-email";
+  const link="http://ronsky.ro:5000/send-email";
+  //const link="http://localhost:3000/send-email";
   axios.post(link, formData)
     .then(response => {
       alert(response.data);
@@ -225,8 +225,8 @@ const GeneratePDF = () => {
   };
 
   const handlerFind = (parameter)=>{
-    //const link="http://ronsky.ro:5000/form?email="+parameter;
-    const link="http://localhost:3000/form?email="+parameter;
+    const link="http://ronsky.ro:5000/form?email="+parameter;
+    //const link="http://localhost:3000/form?email="+parameter;
     axios.get(link )
     .then(response => {
         const r=response.data.form;
@@ -259,8 +259,8 @@ const GeneratePDF = () => {
   
 
   useEffect(() => {
-      //const link="http://ronsky.ro:5000/forms";
-      const link="http://localhost:3000/forms";
+      const link="http://ronsky.ro:5000/forms";
+     // const link="http://localhost:3000/forms";
       axios.get(link )
       .then(response => {
           const forms=response.data.forms;
