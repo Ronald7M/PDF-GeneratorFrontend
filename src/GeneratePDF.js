@@ -1,19 +1,22 @@
 
 import { jsPDF } from "jspdf";
 import "jspdf-autotable";
-import { useForm } from "react-hook-form";
-import React, { useState } from 'react';
+import React, { useState,useEffect  } from 'react';
 import './GeneratePDF.css';  
 import axios from 'axios';
+import { AutoComplete } from "primereact/autocomplete";
 
-const sendPDFToBackend = (pdfBlob,email,password) => {
+const sendPDFToBackend = (pdfBlob,email,password,form) => {
   const formData = new FormData();
   formData.append("pdf", pdfBlob, "Invoice.pdf"); 
   formData.append("email",email );  
   formData.append("subject", "Invoice from Demeter");  
   formData.append("message", "Hello Dear, \nHere is your invoice"); 
-  formData.append("password",password ); 
-  axios.post("http://ronsky.ro:5000/send-email", formData)
+  formData.append("password",password );
+  formData.append("formData",JSON.stringify(form) ); 
+  //const link="http://ronsky.ro:5000/send-email";
+  const link="http://localhost:3000/send-email";
+  axios.post(link, formData)
     .then(response => {
       alert(response.data);
     })
@@ -21,10 +24,12 @@ const sendPDFToBackend = (pdfBlob,email,password) => {
       alert(error);
     });
 };
+
+
 const insertTable = (doc, parameter) => {
   const columns = ["Item", "Quantity", "Price", "Total"];
   let data = parameter.table;
-  console.log(data);
+ 
 
   let rez = 0;
 
@@ -145,7 +150,7 @@ const GeneratePDF = () => {
     insertTable(doc,parameter);
    
     const pdfOutput = doc.output('blob');
-    sendPDFToBackend(pdfOutput,parameter.email,formData.password);
+    sendPDFToBackend(pdfOutput,parameter.email,formData.password,formData);
     //doc.save("tabel.pdf");
     setFormData(initialFormData);
   };
@@ -174,8 +179,6 @@ const GeneratePDF = () => {
  
   const handleSubmit = (e) => {
     e.preventDefault();
-    console.table(formData);
-    console.log(formData)
     handleGeneratePDF(formData)
 
 
@@ -221,6 +224,53 @@ const GeneratePDF = () => {
     }));
   };
 
+  const handlerFind = (parameter)=>{
+    //const link="http://ronsky.ro:5000/form?email="+parameter;
+    const link="http://localhost:3000/form?email="+parameter;
+    axios.get(link )
+    .then(response => {
+        const r=response.data.form;
+      
+      setFormData((prevFormData) => ({
+        ...prevFormData, // Copiază toate valorile existente din formData
+        email:r.email,
+        name: r.name,
+        data: r.data,
+        numberInvoice: r.noInvoice,
+        info: r.info,
+        ust: r.ust,
+      }));
+    })
+    .catch(error => {
+      alert("This email in new !!!")
+    });
+  }
+
+
+
+
+    const [items, setItems] = useState([]);
+    const search = (event) => {
+    
+        const filterArray=[...items].filter( obj=> obj.includes(event.query))
+        setItems(filterArray); // Actualizează sugestiile
+    };
+
+  
+
+  useEffect(() => {
+      //const link="http://ronsky.ro:5000/forms";
+      const link="http://localhost:3000/forms";
+      axios.get(link )
+      .then(response => {
+          const forms=response.data.forms;
+          const emails= forms.map(form => form.email)
+          setItems(emails);
+      })
+      .catch(error => {
+        setItems([]);
+      });
+  }, []);
 
 
   return (
@@ -231,16 +281,14 @@ const GeneratePDF = () => {
           className="formular"
         >
           <div className="input-container">
-            <label htmlFor="email">Client email</label>
-            <input
-              type="email"
-              id="email"
-              name="email"
-              value={formData.email}
-              onChange={handleChangeNormal}
-              placeholder="Email"
-            />
+        
+          <label htmlFor="email">Client email</label>
+            <AutoComplete  type="email" id="email" name="email" value={formData.email} suggestions={items} completeMethod={search}  onChange={handleChangeNormal} />
           </div>
+
+          
+          <button type="button" onClick={() => handlerFind(formData.email)}>Find</button>
+          
 
           <div className="input-container">
             <label htmlFor="password">Password</label>

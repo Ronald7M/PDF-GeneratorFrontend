@@ -1,3 +1,6 @@
+import 'primereact/resources/themes/lara-light-indigo/theme.css'; // Tema
+import 'primereact/resources/primereact.min.css'; // Stiluri pentru componentele PrimeReact
+import 'primeicons/primeicons.css'; // Iconițele PrimeReact
 import React from 'react';
 import ReactDOM from 'react-dom/client';
 import './index.css';
