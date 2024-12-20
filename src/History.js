@@ -23,7 +23,7 @@ function History() {
       }, []);
 
       const openInvoiceLink = (invoiceId) => {
-        const link = `http://localhost:3000/invoice/${invoiceId}`;
+        const link = `http://ronsky.ro:5000/invoice/${invoiceId}`;
         window.open(link, '_blank');
       };
 
