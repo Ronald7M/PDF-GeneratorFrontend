@@ -260,7 +260,7 @@ const GeneratePDF = () => {
 
   useEffect(() => {
       const link="http://ronsky.ro:5000/forms";
-     // const link="http://localhost:3000/forms";
+      //const link="http://localhost:3000/forms";
       axios.get(link )
       .then(response => {
           const forms=response.data.forms;
