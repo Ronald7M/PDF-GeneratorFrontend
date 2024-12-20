@@ -1,0 +1,28 @@
+
+.row{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    background-color:rgb(168, 195, 196);
+    margin-top: 10px;
+    border-radius: 10px;
+    border: 2px solid  rgb(136, 136, 136);
+    width: 70vw;
+    padding-bottom: 15px;
+}
+.bpdf{
+    background-color:rgb(245, 95, 95);
+    border-radius: 50%;
+
+}
+.bpdf:focus{
+    background-color:rgb(245, 95, 95);
+    border-radius: 50%;
+
+}
+
+.bpdf .pi {
+    font-size: 30px; 
+    
+}

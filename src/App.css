@@ -4,3 +4,17 @@
   flex-direction: column;
   align-items: center;
 }
+
+.but{
+  display: flex;
+  flex-direction: row;
+  gap:10%;
+  margin: 20px;
+}
+
+.active{
+  background-color: rgb(255, 94, 0);
+}
+.active:focus{
+  background-color: rgb(255, 94, 0);
+}
